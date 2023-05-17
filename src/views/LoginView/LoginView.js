@@ -88,7 +88,7 @@ const LoginView = () => {
         </TopCard>
         <BottomCard style={{ paddingBottom: bottomInset }}>
           <Title>
-            Ingresa tu número <Highlight>telcel</Highlight>
+            Ingresa tu número celular
           </Title>
           <Description>
             Envíaremos un código de verificación a tu celular para confirmar el

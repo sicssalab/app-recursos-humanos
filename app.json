@@ -1,22 +1,21 @@
 {
-  "displayName": "Hola Telcel",
   "expo": {
-    "name": "Hola telcel",
-    "slug": "app-expo-hola-telcel",
-    "privacy":"public",
+    "name": "Recursos Humanos",
+    "slug": "app-recursos-humanos",
+    "privacy": "public",
     "owner": "sicssa-lab",
-    "description": "app-demo-hola-telcel",
+    "description": "app-demo-recursos-humanos",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./src/assets/favicon.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./src/assets/images/splash@3x.png",
+      "image": "./src/assets/images/splash.png",
       "resizeMode": "contain",
       "backgroundColor": "#18191A",
       "mdpi": "./src/assets/images/splash.png",
-      "xhdpi": "./src/assets/images/splash@2x.png",
-      "xxhdpi": "./src/assets/images/splash@3x.png"
+      "xhdpi": "./src/assets/images/splash.png",
+      "xxhdpi": "./src/assets/images/splash.png"
     },
     "platforms": [
       "ios",
@@ -39,7 +38,11 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.wen3.appexpoholatelcel"
+      "package": "com.wen3.appexpoholatelcel",
+      "permissions": [
+        "android.permission.RECORD_AUDIO",
+        "android.permission.MODIFY_AUDIO_SETTINGS"
+      ]
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -49,7 +52,7 @@
     ],
     "extra": {
       "eas": {
-        "projectId": "5c51cbd2-559b-4ca4-a6b3-3d6f83dca777"
+        "projectId": "c8b75edf-ed01-4435-a6a3-42bafd941de3"
       }
     }
   }
