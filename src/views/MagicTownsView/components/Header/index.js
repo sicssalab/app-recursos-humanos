@@ -6,9 +6,9 @@ export const Header = () => {
   return (
     <Container>
       <Title>
-        <Text fontSize='h3' fontWeight='bold'>Pueblos Mágicos</Text>
+        <Text fontSize='h3' fontWeight='bold'>Contenido Premium</Text>
       </Title>
-      <Text style={{textAlign: "center", marginBottom: 20}}>Actualmente existe 132 pueblos mágicos listados a continuación en orden alfabetico</Text>
+      {/* <Text style={{textAlign: "center", marginBottom: 20}}>Actualmente existe 132 pueblos mágicos listados a continuación en orden alfabetico</Text> */}
     </Container>
   );
 };

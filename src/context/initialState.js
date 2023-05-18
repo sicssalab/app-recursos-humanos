@@ -86,5 +86,11 @@ export default {
         loading: false, //fetching
         complete: false,
         error: false
-    }
+    },
+    trainingList: {
+        data: [],
+        loading: false, //fetching
+        complete: false,
+        error: false
+    },
 }

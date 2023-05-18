@@ -3,6 +3,7 @@ import { FlatList, SectionList, View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { SafeComponent } from "../../components";
 import Divider from "../../components/Divider";
+import { Input } from "../AvenuesView/components/Input";
 import SceneName from "../../constants/SceneName";
 import GlobalPost from "../../components/posts/GlobalPost";
 import StateDropdown from "../AvenuesView/components/StateDropdown";
@@ -11,11 +12,13 @@ import { Header } from "./components/Header";
 import { useDispatch, useGlobalState } from "../../context/StoreProvider";
 import mallsStatesAction from "../../actions/mallsStatesAction";
 import { typeMockConstants } from "../../constants/typeMockConstants";
+import NoFoundResult from "../../components/ui/NoFoundResult/NoFoundResult";
 
 function Component() {
   const navigation = useNavigation();
   const [filteredPosts, setFilteredPosts] = useState([]);
   const { mallsStates } = useGlobalState();
+  const [valueSearch, setValueSearch] = useState("");
   const dispatch = useDispatch();
   const [states, setStates] = useState([]);
   const [visibles, setvisible] = useState([]);
@@ -24,31 +27,26 @@ function Component() {
   }, []);
 
   useEffect(() => {
-    if (!mallsStates.complete && !mallsStates.error && !mallsStates.loading) {
-      mallsStatesAction.get({}, dispatch);
-    }
-
-    if (mallsStates.complete) {
-      setStates(
-        mallsStates.states.map((state) => ({
-          code: state.id,
-          name: state.name,
-        }))
-      );
-    }
+    if (mallsStates.complete) setFilteredPosts(mallsStates.data);
   }, [mallsStates]);
 
-  const updateFilteredAvenuesAndPosts = (stateId, _avenueId) => {
-    setFilteredPosts([]);
-
-    //TODO busca el estado seleccionado
-    const selectedState = mallsStates.states.find(
-      (state) => state.id === stateId
-    );
-
-    //TODO selecciona la lista de servicios por el estado
-    const filteredAvenues = selectedState ? selectedState.items : [];
-    setFilteredPosts(filteredAvenues);
+  const removeAccents = (str) => {
+    return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+  };
+  const onChangeInput = (e) => {
+    //TODO de la busqueda filtrar los que son con el nombre
+    setValueSearch(e);
+    if (e == "") setFilteredPosts(mallsStates.data);
+    else
+      setFilteredPosts(
+        mallsStates.data.filter(
+          (servicio) =>
+            //removeAccents(servicio.name.toUpperCase()) >= removeAccents(e.toUpperCase())
+            removeAccents(servicio.name.toLowerCase()).indexOf(
+              removeAccents(e.toLowerCase())
+            ) >= 0
+        )
+      );
   };
 
   const onNavigateClick = (item) => {
@@ -78,9 +76,11 @@ function Component() {
             <>
               <Header />
               <OptionsContainer>
-                <StateDropdown
-                  states={states}
-                  onUpdate={updateFilteredAvenuesAndPosts}
+                <Input
+                  placeholder="Buscar"
+                  value={valueSearch}
+                  onChangeText={onChangeInput}
+                  maxLength={500}
                 />
               </OptionsContainer>
             </>
@@ -99,6 +99,14 @@ function Component() {
             );
           }}
           onViewableItemsChanged={onViewableItemsChanged.current}
+          ListFooterComponent={
+            <NoFoundResult
+              section={{
+                data: filteredPosts,
+              }}
+              valueSearch={valueSearch}
+            />
+          }
         />
       </Container>
     </SafeComponent>

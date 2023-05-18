@@ -15,11 +15,11 @@ const EntertainmentView = () => {
   const [visibles, setvisible] = useState([]);
   const dispatch = useDispatch();
   const onNavigateClick = (item) => {
-    const profilePage = {
-      id: item.id,
-      type: typeMockConstants.GROUP_PROFILE,
-    };
-    navigation.navigate(SceneName.GroupProfile, { profilePage }); // Asegúrate de que "Profile" sea el nombre correcto de la ruta de navegación
+    // const profilePage = {
+    //   id: item.id,
+    //   type: typeMockConstants.GROUP_PROFILE,
+    // };
+    // navigation.navigate(SceneName.GroupProfile, { profilePage }); // Asegúrate de que "Profile" sea el nombre correcto de la ruta de navegación
   };
 
   const onViewableItemsChanged = useRef(({ viewableItems, changed }) => {

@@ -29,13 +29,18 @@ const HomeView = () => {
   const themeContext = useContext(ThemeContext);
   //TODO render al abrir para que no carge los videos iniciando
   const RenderMagicTowns = (props) => {
-    // return props.navigation.isFocused() ? <MagicTownsView /> : <></>;
-    return props.navigation.isFocused() ? <></> : <></>;
+    return props.navigation.isFocused() ? <MagicTownsView /> : <></>;
+    //return props.navigation.isFocused() ? <></> : <></>;
   };
 
   const RenderEntertainment = (props) => {
-    // return props.navigation.isFocused() ? <EntertainmentView /> : <></>;
-    return props.navigation.isFocused() ? <></> : <></>;
+    return props.navigation.isFocused() ? <EntertainmentView /> : <></>;
+    //return props.navigation.isFocused() ? <></> : <></>;
+  };
+  
+  const RenderExperience = (props) => {
+    return props.navigation.isFocused() ? <ExperienceView /> : <></>;
+    //return props.navigation.isFocused() ? <></> : <></>;
   };
 
   const RenderMalls = (props) => {
@@ -75,8 +80,7 @@ const HomeView = () => {
             tabBarIcon: ({ focused, color }) =>
               focused ? <AvenuesIcon fill={"gold"} width="30" height="30" /> : <AvenuesIcon fill={color} width="30" height="30" />,
           }}
-          //component={AvenuesView}
-          component={RenderMalls}
+          component={AvenuesView}
         />
         <Tab.Screen
           name={SceneName.Experience}
@@ -88,8 +92,8 @@ const HomeView = () => {
                 <ExperienceIcon fill={color} width="30" height="30"/>
               ),
           }}
-          component={RenderMalls}
-          //component={ExperienceView}
+          //component={RenderMalls}
+          component={RenderExperience}
         />
         <Tab.Screen
           name={SceneName.MagicTowns}
@@ -126,8 +130,8 @@ const HomeView = () => {
                 <MallsIcon fill={color} width="30" height="30" />
               ),
           }}
-          component={RenderMalls}
-          //component={MallView}
+          //component={RenderMalls}
+          component={MallView}
         />
       </Tab.Navigator>
     </>

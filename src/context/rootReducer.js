@@ -13,6 +13,7 @@ import experienceProfileList from "./experienceProfileListReducer";
 import magicTownProfileList from "./magicTownProfileListReducer";
 import mallsStates from "./mallsStatesReducer";
 import mallProfileList from "./mallProfileListReducer";
+import trainingList from "./trainingListReducer";
 
 const rootReducer = combineReducers({
     userAuth,
@@ -29,6 +30,7 @@ const rootReducer = combineReducers({
     entertainmentProfileList,
     experienceProfileList,
     magicTownProfileList,
+    trainingList
 })
 
 export default rootReducer;

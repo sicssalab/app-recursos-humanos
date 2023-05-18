@@ -56,7 +56,7 @@ const LoginView = () => {
     if (phoneNumber === SET_NUMBER) {
       Alert.alert(
         'Error de acceso',
-        'El número de teléfono celular no se encuentra registrado, por favor registrate y se parte de nuestra comunidad Telcel.',
+        'El número de teléfono celular no se encuentra registrado, por favor registrate y se parte de nuestra comunidad.',
       );
       setLoading(false);
       return;

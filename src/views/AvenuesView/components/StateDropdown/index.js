@@ -11,7 +11,7 @@ const StateDropdown = ({ states, onUpdate }) => {
 
   return (
     <Select
-      placeholder='Selecciona un estado...'
+      placeholder='Selecciona un Categoría...'
       options={states}
       selectedValue={selectedState}
       onValueChange={onValueChange}

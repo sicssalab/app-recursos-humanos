@@ -13,27 +13,27 @@ import { useDispatch, useGlobalState } from "../../context/StoreProvider";
 import statesListAction from "../../actions/statesListAction";
 import NoFoundResult from "../../components/ui/NoFoundResult/NoFoundResult";
 import { typeMockConstants } from "../../constants/typeMockConstants";
+import trainingListAction from "../../actions/trainingListAction";
 
 function Component() {
   const navigation = useNavigation();
   const [selectedStateId, setSelectedStateId] = useState(null);
-  const [selectedAvenueId, setSelectedAvenueId] = useState(null);
   const [keyword, setKeyword] = useState("");
-  const [filteredAvenues, setFilteredAvenues] = useState([]);
   const [filteredPosts, setFilteredPosts] = useState([]);
-  const { statesList } = useGlobalState();
+  const { statesList, trainingList } = useGlobalState(); //statesList tipos de servicio
   const dispatch = useDispatch();
   const [states, setStates] = useState([]);
   const [visibles, setvisible] = useState([]);
 
   useEffect(() => {
     statesListAction.get({}, dispatch);
+    trainingListAction.get({}, dispatch);
   }, []);
 
   useEffect(() => {
     if (statesList.complete) {
       setStates(
-        statesList.states.map((state) => ({
+        statesList.data.map((state) => ({
           code: state.id,
           name: state.name,
         }))
@@ -45,32 +45,25 @@ function Component() {
     setFilteredPosts([]);
     setSelectedStateId(stateId);
 
-    const selectedState = statesList.states.find(
-      (state) => state.id === stateId
-    );
-    const filteredAvenues = selectedState ? selectedState.avenues : [];
-
-    setFilteredAvenues(filteredAvenues);
-
-    if (avenueId) {
-      setSelectedAvenueId(avenueId);
-      const selectedAvenue = filteredAvenues.find(
-        (avenue) => avenue.id === avenueId
+    //TODO Muesta la lista de servicios por la avenida seleccionada
+    if (stateId) {
+      //TODO seleccionar todos los servicios de X estado
+      const services = trainingList.data.filter(
+        (servicio) => servicio.service_id === stateId
       );
-      const filteredPosts = selectedAvenue ? selectedAvenue.content : [];
-      setFilteredPosts(filteredPosts);
+      setFilteredPosts(services);
     } else {
       setFilteredPosts([]);
     }
   };
 
   const onNavigateClick = (item) => {
-    const profilePage = {
-      id: item.id,
-      type: typeMockConstants.AVENUES_PROFILE,
-    };
+    // const profilePage = {
+    //   id: item.id,
+    //   type: typeMockConstants.AVENUES_PROFILE,
+    // };
 
-    navigation.navigate(SceneName.GroupProfile, { profilePage });
+    // navigation.navigate(SceneName.GroupProfile, { profilePage });
   };
   const removeAccents = (str) => {
     return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
@@ -79,26 +72,20 @@ function Component() {
     //TODO de la busqueda filtrar los que son con el nombre
     setKeyword(e);
     //TODO selec
-    if (selectedStateId > 0 && selectedAvenueId > 0) {
-      const selectedState = statesList.states.find(
-        (state) => state.id === selectedStateId
-      );
-      const filteredAvenues = selectedState ? selectedState.avenues : [];
-      const selectedAvenue = filteredAvenues.find(
-        (avenue) => avenue.id === selectedAvenueId
-      );
+    const filteredAvenues = trainingList.data.filter(
+      (servicio) => servicio.service_id === selectedStateId
+    );
 
-      if (e == "") setFilteredPosts(selectedAvenue.content);
-      else
-        setFilteredPosts(
-          selectedAvenue.content.filter(
-            (servicio) =>
-              removeAccents(servicio.name.toLowerCase()).indexOf(
-                removeAccents(e.toLowerCase())
-              ) >= 0
-          )
-        );
-    }
+    if (e == "") setFilteredPosts(filteredAvenues);
+    else
+      setFilteredPosts(
+        filteredAvenues.filter(
+          (servicio) =>
+            removeAccents(servicio.name.toLowerCase()).indexOf(
+              removeAccents(e.toLowerCase())
+            ) >= 0
+        )
+      );
   };
 
   const onViewableItemsChanged = useRef(({ viewableItems, changed }) => {
@@ -125,14 +112,6 @@ function Component() {
                   //onUpdate={updateFilteredState}
                   onUpdate={updateFilteredAvenuesAndPosts}
                 />
-                {selectedStateId && (
-                  <AvenueDropdown
-                    stateId={selectedStateId}
-                    onUpdate={updateFilteredAvenuesAndPosts}
-                    //onUpdate={updateFilteredAvenues}
-                    filteredAvenues={filteredAvenues}
-                  />
-                )}
                 <Input
                   placeholder="¿Qué estás buscando?"
                   value={keyword}
@@ -158,9 +137,12 @@ function Component() {
           }}
           onViewableItemsChanged={onViewableItemsChanged.current}
           ListFooterComponent={
-            <NoFoundResult section={{
-              data: filteredPosts
-            }} valueSearch={keyword} />
+            selectedStateId && <NoFoundResult
+              section={{
+                data: filteredPosts,
+              }}
+              valueSearch={keyword}
+            />
           }
         />
       </Container>

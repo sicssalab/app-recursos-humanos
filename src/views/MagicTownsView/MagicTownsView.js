@@ -27,15 +27,15 @@ const MagicTownsView = () => {
   }, []);
 
   useEffect(() => {
-    if (magicTowns.complete) setFilteredPosts(magicTowns.data.content);
+    if (magicTowns.complete) setFilteredPosts(magicTowns.data);
   }, [magicTowns]);
 
   const onNavigateClick = (item) => {
-    const profilePage = {
-      id: item.id,
-      type: typeMockConstants.MAGIC_TOWNS_PROFILE,
-    };
-    navigation.navigate(SceneName.GroupProfile, { profilePage });
+    // const profilePage = {
+    //   id: item.id,
+    //   type: typeMockConstants.MAGIC_TOWNS_PROFILE,
+    // };
+    // navigation.navigate(SceneName.GroupProfile, { profilePage });
   };
   const removeAccents = (str) => {
     return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
@@ -43,10 +43,10 @@ const MagicTownsView = () => {
   const onChangeInput = (e) => {
     //TODO de la busqueda filtrar los que son con el nombre
     setValueSearch(e);
-    if (e == "") setFilteredPosts(magicTowns.data.content);
+    if (e == "") setFilteredPosts(magicTowns.data);
     else
       setFilteredPosts(
-        magicTowns.data.content.filter(
+        magicTowns.data.filter(
           (servicio) =>
             //removeAccents(servicio.name.toUpperCase()) >= removeAccents(e.toUpperCase())
             removeAccents(servicio.name.toLowerCase()).indexOf(
@@ -55,44 +55,6 @@ const MagicTownsView = () => {
         )
       );
   };
-
-  const sections = [
-    {
-      title: "Header",
-      data: ["header"],
-      key: "header",
-      renderItem: () => <Header />,
-    },
-    {
-      title: "Divider",
-      data: ["divider"],
-      key: "divider",
-      renderItem: () => <Divider />,
-    },
-    {
-      title: "OptionsContainer",
-      data: ["optionsContainer"],
-      key: "optionsContainer",
-      renderItem: () => (
-        <OptionsContainer>
-          <Input
-            placeholder="Buscar"
-            value={valueSearch}
-            onChangeText={onChangeInput}
-            maxLength={500}
-          />
-        </OptionsContainer>
-      ),
-    },
-    {
-      title: "Posts",
-      data: filteredPosts,
-      key: "posts",
-      renderItem: ({ item }) => (
-        <GlobalPost item={item} onNavigateClick={() => onNavigateClick(item)} />
-      ),
-    },
-  ];
 
   const onViewableItemsChanged = useRef(({ viewableItems, changed }) => {
     setvisible(
@@ -126,7 +88,6 @@ const MagicTownsView = () => {
           renderItem={({ item, index }) => {
             const isVisible = visibles.findIndex((i) => i.index == index);
             //isVisible >= 0 && console.log(isVisible, item.name);
-
             return (
               <GlobalPost
                 isVisible={isVisible >= 0 ? true : false}

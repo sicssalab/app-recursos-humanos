@@ -10,7 +10,7 @@ export const Header = () => {
     <Container>
       <Title>
         <Text fontSize='h3' fontWeight='bold'>
-          Avenidas
+          Cursos y Capacitaciones
         </Text>
       </Title>
     </Container>

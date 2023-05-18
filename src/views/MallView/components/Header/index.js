@@ -6,7 +6,7 @@ export const Header = () => {
   return (
     <Container>
       <Title>
-        <Text fontSize='h3' fontWeight='bold'>Plazas comerciales</Text>
+        <Text fontSize='h3' fontWeight='bold'>Directorio</Text>
       </Title>
     </Container>
   );
