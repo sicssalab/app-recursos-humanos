@@ -60,6 +60,12 @@ const VideoInMedia = (props) => {
   //   }
   // }, [showPreview]);
 
+  useEffect(() => {
+    if (!autoPlay) {
+      videoRef.current.pauseAsync();
+    }
+  }, [autoPlay]);
+
   return (
     <Video
       source={{ uri: video.uri ? video.uri : video }}
