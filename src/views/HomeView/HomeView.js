@@ -20,6 +20,9 @@ import AvenuesIcon from "../../assets/icons/menu/capacitacion.svg";
 import ExperienceIconActive from "../../assets/icons/menu/experience-active.svg";
 import ExperienceIcon from "../../assets/icons/menu/beneficios.svg";
 import MagicTownsIcon from "../../assets/icons/menu/premiun.svg";
+import MusicEvolutionIcon from "../../assets/icons/menu/music-evolution.svg";
+import MediaCortIcon from "../../assets/icons/menu/media-corto.svg";
+
 import MallsIcon from "../../assets/icons/menu/directorio.svg";
 
 const Tab = createMaterialTopTabNavigator();
@@ -95,7 +98,7 @@ const HomeView = () => {
           //component={RenderMalls}
           component={RenderExperience}
         />
-        <Tab.Screen
+        {/* <Tab.Screen
           name={SceneName.MagicTowns}
           options={{
             tabBarIcon: ({ focused, color }) =>
@@ -107,7 +110,8 @@ const HomeView = () => {
           }}
           //component={<></>}
           component={RenderMagicTowns}
-        />
+        /> */}
+
         {/* <Tab.Screen
           name={SceneName.MenuProfile}
           options={{
@@ -120,6 +124,32 @@ const HomeView = () => {
           }}
           component={EditProfileView}
         /> */}
+         <Tab.Screen
+          name={SceneName.MusicEvolution}
+          options={{
+            tabBarIcon: ({ focused, color }) => 
+            focused ? (
+                <MusicEvolutionIcon fill={"gold"} width="30" height="30" />
+              ) : (
+                <MusicEvolutionIcon fill={color} width="30" height="30" />
+              ),
+          }}
+          //component={RenderMalls}
+          component={MallView}
+        />
+         <Tab.Screen
+          name={SceneName.MediaCort}
+          options={{
+            tabBarIcon: ({ focused, color }) => 
+            focused ? (
+                <MediaCortIcon fill={"gold"} width="30" height="30" />
+              ) : (
+                <MediaCortIcon fill={color} width="30" height="30" />
+              ),
+          }}
+          //component={RenderMalls}
+          component={MallView}
+        />
         <Tab.Screen
           name={SceneName.Malls}
           options={{

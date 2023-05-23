@@ -19,7 +19,10 @@ const SceneName = {
     Profile: "Profile",
     ModalView: "ModalView",
     GroupProfile: "GroupProfile",
-    Setting: "Setting"
+    Setting: "Setting",
+    MusicEvolution: "MusicEvolution",
+    MediaCort: "MediaCort"
+
 }
 
 export default SceneName;
