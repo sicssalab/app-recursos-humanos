@@ -10,7 +10,7 @@ const settings = {
         experiencesStates: "experiencias/mocksEstadosExperiencias.json",
         
         magicTowns: "4-premiun/mockPremiun.json?v=2",
-        entertainmentProfileList: "groups-urban.json",
+        entertainmentProfileList: "1-entretenimiento/mockEntretenimientoPerfiles.json",
         experienceProfileList: "experiencias/mocksExperienciasPerfiles.json",
         magicTownProfileList: "pueblos-magicos/mocksPueblosMagicosPerfiles.json",
         mallsStates: "5-directorio/mockDirectorio.json",
