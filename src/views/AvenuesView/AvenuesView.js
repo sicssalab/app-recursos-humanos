@@ -3,7 +3,6 @@ import { SectionList, View, FlatList } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import SceneName from "../../constants/SceneName";
 import GlobalPost from "../../components/posts/GlobalPost";
-import AvenueDropdown from "./components/AvenueDropdown";
 import { Header } from "./components/Header";
 import { Input } from "./components/Input";
 import StateDropdown from "./components/StateDropdown";
@@ -58,12 +57,12 @@ function Component() {
   };
 
   const onNavigateClick = (item) => {
-    // const profilePage = {
-    //   id: item.id,
-    //   type: typeMockConstants.AVENUES_PROFILE,
-    // };
+    const profilePage = {
+      id: item.id,
+      type: typeMockConstants.AVENUES_PROFILE,
+    };
 
-    // navigation.navigate(SceneName.GroupProfile, { profilePage });
+    navigation.navigate(SceneName.GroupProfile, { profilePage });
   };
   const removeAccents = (str) => {
     return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");

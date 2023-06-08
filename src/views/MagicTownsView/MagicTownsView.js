@@ -31,11 +31,11 @@ const MagicTownsView = () => {
   }, [magicTowns]);
 
   const onNavigateClick = (item) => {
-    // const profilePage = {
-    //   id: item.id,
-    //   type: typeMockConstants.MAGIC_TOWNS_PROFILE,
-    // };
-    // navigation.navigate(SceneName.GroupProfile, { profilePage });
+    const profilePage = {
+      id: item.id,
+      type: typeMockConstants.MAGIC_TOWNS_PROFILE,
+    };
+    navigation.navigate(SceneName.GroupProfile, { profilePage });
   };
   const removeAccents = (str) => {
     return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");

@@ -25,12 +25,12 @@ function Component() {
   }, []);
 
   const onNavigateClick = (item) => {
-    // const profilePage = {
-    //   id: item.id,
-    //   type: typeMockConstants.SERVICES_PROFILE,
-    // };
+    const profilePage = {
+      id: item.id,
+      type: typeMockConstants.SERVICES_PROFILE,
+    };
 
-    // navigation.navigate(SceneName.GroupProfile, { profilePage });
+    navigation.navigate(SceneName.GroupProfile, { profilePage });
   };
 
   const onViewableItemsChanged = useRef(({ viewableItems, changed }) => {
