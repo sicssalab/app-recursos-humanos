@@ -1,4 +1,5 @@
-import React, { useState, useContext } from 'react';
+import * as SecureStore from "expo-secure-store";
+import React, { useState, useContext, useEffect } from 'react';
 import { Image, KeyboardAvoidingView, Platform, Alert } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -8,7 +9,7 @@ import { StatusBar } from 'expo-status-bar';
 import { ThemeContext } from 'styled-components/native';
 import SceneName from '../../constants/SceneName';
 import Text from '../../components/Text';
-
+import _ from "lodash";
 
 
 import HeroText from './components/HeroText';
@@ -25,8 +26,11 @@ import {
   Description,
   TopCard,
 } from './styles';
+import { useGlobalState, useDispatch } from '../../context/StoreProvider';
+import userAuthAction from '../../actions/userAuthAction';
+import localstorageConstants from '../../constants/localstorageConstants';
+import userAuthUtils from "../../utls/userAuthUtils";
 
-const SET_NUMBER = '(999) 9999-999';
 export const useCustomBottomInset = () => {
   const insets = useSafeAreaInsets();
   return Math.max(20, insets.bottom + 5);
@@ -37,10 +41,10 @@ const LoginView = () => {
   const insets = useSafeAreaInsets();
   const navigation = useNavigation();
   const bottomInset = useCustomBottomInset();
-  const [loading, setLoading] = useState(false);
-
   const [phoneNumber, setPhoneNumber] = useState('');
   const [password, setPassword] = useState('');
+  const {userAuth} = useGlobalState();
+  const dispatch = useDispatch();
 
   const handlePhoneNumberChange = (phone) => {
     setPhoneNumber(phone);
@@ -50,27 +54,70 @@ const LoginView = () => {
     setPassword(password);
   };
 
-  const handleLogin = async () => {
-    setLoading(true);
+  const conextionLogin = async (response) => {
+    const rawValue = JSON.stringify(response);
+    await SecureStore.setItemAsync(localstorageConstants.AUTH, rawValue).then(() => {
+      console.log("finish con then");
+      navigation.navigate(SceneName.Home);
+    });
+  }
 
-    if (phoneNumber === SET_NUMBER) {
+  const handleLogin = async () => {
+    if (_.isEmpty(phoneNumber)) {
       Alert.alert(
         'Error de acceso',
-        'El número de teléfono celular no se encuentra registrado, por favor registrate y se parte de nuestra comunidad.',
+        'Ingresa tu número telefónico',
       );
-      setLoading(false);
-      return;
+      return true;
     }
 
-    setTimeout(() => {
-      navigation.navigate(SceneName.Home);
-      setLoading(false);
-    }, 1000);
+    if (_.isEmpty(password)) {
+      Alert.alert(
+        'Error de acceso',
+        'Ingresa contraseña',
+      );
+      return true;
+    }
+    let auxPass = phoneNumber.replace("(","").replace(")","").replace(" ","").replace("-","")
+    const request = {
+      username: auxPass,
+      password: password,
+    };
+    try {
+      userAuthAction.get(request, dispatch, (response) => {
+        if (response.id) {
+          conextionLogin(response);
+        }
+      },
+      (error) => {
+        //console.log(typeof error)
+        let messageError = error.message?.toString();
+        messageError = _.isEmpty(messageError) ? "Ups! Ocurrio un error" : messageError;
+        Alert.alert(
+          'ER: Error de acceso',
+          messageError,
+        );
+      });
+    } catch (e) {
+      Alert.alert(
+        'Error Interno',
+        e,
+      );
+    }
   };
 
   const goToRegister = async () => {
     navigation.navigate(SceneName.Registration);
   };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const auxSession = await userAuthUtils.getConexionSession();
+      if (auxSession)
+        navigation.navigate(SceneName.Home);
+    }
+    fetchData();
+  },[]);
 
   const loginButtonDisabled = Boolean(!phoneNumber || !password);
 
@@ -103,7 +150,7 @@ const LoginView = () => {
           />
           <PasswordInput onPasswordChange={handlePasswordChange} />
           <LoginButton
-            loading={loading}
+            loading={userAuth.loading}
             disabled={loginButtonDisabled}
             onPress={handleLogin}>
             Iniciar sesión

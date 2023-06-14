@@ -7,7 +7,7 @@ import SearchIcon from "../../assets/icons/general/search.svg";
 import RadioIcon from "../../assets/icons/stream/podcasts.svg";
 import SettingIcon from "../../assets/icons/menu/settings.svg";
 import ModalRadio from "../../components/modals/ModalRadio";
-
+import AvatarHeader from "./components/AvatarHeader";
 import {
   Container,
   SearchIconWrapper,
@@ -34,7 +34,7 @@ export const useTopHeaderStyle = () => {
 function TopHeader() {
   const themeContext = useContext(ThemeContext);
   const style = useTopHeaderStyle();
-  const { audioStreaming } = useGlobalState();
+  const { audioStreaming, userAuth } = useGlobalState();
   const dispatch = useDispatch();
   const [showModal, setShowModal] = useState(false);
   const navigation = useNavigation();
@@ -86,6 +86,7 @@ function TopHeader() {
         <TouchableOpacity activeOpacity={1} onPress={onShowModal}>
           <RadioIcon fill={(audioStreaming.playMusic || audioStreaming.playMusicAux) ? "gold": themeContext.colors.text} />
         </TouchableOpacity>
+        <AvatarHeader />
       </RightSide>
       <ModalRadio
         modalVisible={showModal}

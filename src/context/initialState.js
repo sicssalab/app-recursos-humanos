@@ -14,6 +14,9 @@ export default {
     },
     userAuth: {
         isPremium: false,
+        loading: false, //fetching
+        complete: false,
+        error: false
     },
     stories: {
         data: [],
