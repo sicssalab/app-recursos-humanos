@@ -7,7 +7,7 @@ import { useEffect, useRef, useState } from "react";
 import storiesAction from "../../actions/storiesAction";
 import { typeMockConstants } from "../../constants/typeMockConstants";
 import entertainmentsAction from "../../actions/entertainmentsAction";
-import GlobalPost from "../../components/posts/GlobalPost/GlobalPost";
+import GlobalPostCMS from "../../components/posts/GlobalPostCMS";
 
 const EntertainmentView = () => {
   const navigation = useNavigation();
@@ -34,9 +34,9 @@ const EntertainmentView = () => {
 
   useEffect(() => {
     storiesAction.get({}, dispatch);
-    entertainmentsAction.get({}, dispatch);
+    entertainmentsAction.getPageInitial({}, dispatch, () => {}, () => {});
   }, []);
-
+  // console.log(entertainments?.data)
   return (
     <FlatList
       keyExtractor={(item) => item.id}
@@ -53,7 +53,8 @@ const EntertainmentView = () => {
         //isVisible >= 0 && console.log(isVisible, item.name)
 
         return (
-          <GlobalPost
+          <GlobalPostCMS
+            typePost="post_urban"
             isVisible={isVisible >= 0 ? true: false}
             item={item}
             onNavigateClick={() => onNavigateClick(item)}

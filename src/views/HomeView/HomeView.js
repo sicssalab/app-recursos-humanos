@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { ThemeContext } from "styled-components/native";
-import { Dimensions, Image } from "react-native";
+import { Dimensions, Image, View, Text, StyleSheet } from "react-native";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 
 import SceneName from "../../constants/SceneName";
@@ -43,11 +43,6 @@ const HomeView = () => {
     //return props.navigation.isFocused() ? <></> : <></>;
   };
 
-  const RenderMalls = (props) => {
-    // return props.navigation.isFocused() ? <EntertainmentView /> : <></>;
-    return props.navigation.isFocused() ? <></> : <></>;
-  };
-
   return (
     <>
       <TopHeader />
@@ -57,7 +52,6 @@ const HomeView = () => {
         screenOptions={{
           tabBarInactiveTintColor: themeContext.colors.text,
         }}
-        //initialRouteName={SceneName.Authentication}
         initialRouteName={SceneName.Entertainment}
       >
         <Tab.Screen
@@ -65,20 +59,25 @@ const HomeView = () => {
           options={{
             mostrarok: true,
             tabBarIcon: ({ focused, color }) =>
-              focused ? (
-                <EntertainmentIconActive />
-              ) : (
-                <EntertainmentIcon fill={color} />
-              ),
+              <View style={styles.viewMenu}>
+                {focused ? (
+                  <EntertainmentIconActive width="30" height="30" />
+                ) : (
+                  <EntertainmentIcon fill={color} width="30" height="30"/>
+                )}
+                <Text style={{...styles.textMenu, color: focused ? "gold" : "white"}}>Inicio</Text>
+              </View>
           }}
-          //component={EntertainmentView}
           component={RenderEntertainment}
         />
         <Tab.Screen
           name={SceneName.Avenues}
           options={{
             tabBarIcon: ({ focused, color }) =>
-              focused ? <AvenuesIcon fill={"gold"} width="30" height="30" /> : <AvenuesIcon fill={color} width="30" height="30" />,
+              <View style={styles.viewMenu}>
+                {focused ? <AvenuesIcon fill={"gold"} width="25" height="25" /> : <AvenuesIcon fill={color} width="30" height="30" />}
+                <Text style={{...styles.textMenu, color: focused ? "gold" : "white"}}>Cursos</Text>
+              </View>
           }}
           component={AvenuesView}
         />
@@ -86,56 +85,57 @@ const HomeView = () => {
           name={SceneName.Experience}
           options={{
             tabBarIcon: ({ focused, color }) =>
-              focused ? (
-                <ExperienceIcon fill={"gold"} width="30" height="30"/>
-              ) : (
-                <ExperienceIcon fill={color} width="30" height="30"/>
-              ),
+              <View style={styles.viewMenu}>
+                {focused ? (
+                  <ExperienceIcon fill={"gold"} width="30" height="30"/>
+                ) : (
+                  <ExperienceIcon fill={color} width="30" height="30"/>
+                )}
+                <Text style={{...styles.textMenu, color: focused ? "gold" : "white"}}>Descuentos</Text>
+              </View>
           }}
-          //component={RenderMalls}
           component={RenderExperience}
         />
         <Tab.Screen
           name={SceneName.MagicTowns}
           options={{
             tabBarIcon: ({ focused, color }) =>
-              focused ? (
-                <MagicTownsIcon fill={"gold"} width="30" height="30"/>
-              ) : (
-                <MagicTownsIcon fill={color} width="30" height="30"/>
-              ),
+              <View style={styles.viewMenu}>
+                {focused ? (
+                  <MagicTownsIcon fill={"gold"} width="30" height="30"/>
+                ) : (
+                  <MagicTownsIcon fill={color} width="30" height="30"/>
+                )}
+                <Text style={{...styles.textMenu, color: focused ? "gold" : "white"}}>Premium</Text>
+              </View>
           }}
-          //component={<></>}
           component={RenderMagicTowns}
         />
-        {/* <Tab.Screen
-          name={SceneName.MenuProfile}
-          options={{
-            tabBarIcon: ({ focused, color }) =>
-              focused ? (
-                <MenuProfileIconActive />
-              ) : (
-                <MenuProfileIcon fill={color} />
-              ),
-          }}
-          component={EditProfileView}
-        /> */}
         <Tab.Screen
           name={SceneName.Malls}
           options={{
             tabBarIcon: ({ focused, color }) => 
-            focused ? (
-                <MallsIcon fill={"gold"} width="30" height="30" />
-              ) : (
-                <MallsIcon fill={color} width="30" height="30" />
-              ),
+              <View style={styles.viewMenu}>
+                {focused ? (
+                  <MallsIcon fill={"gold"} width="30" height="30" />
+                ) : (
+                  <MallsIcon fill={color} width="30" height="30" />
+                )}
+                <Text style={{...styles.textMenu, color: focused ? "gold" : "white"}}>Directorio</Text>
+              </View>
           }}
-          //component={RenderMalls}
           component={MallView}
         />
       </Tab.Navigator>
     </>
   );
 };
-
+const styles = StyleSheet.create({
+  textMenu: {
+    fontSize: 8, textAlign: "center", paddingTop: 3
+  },
+  viewMenu: {
+    alignItems: "center",
+  }
+});
 export default HomeView;

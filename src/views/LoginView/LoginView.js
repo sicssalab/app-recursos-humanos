@@ -29,7 +29,7 @@ import {
 import { useGlobalState, useDispatch } from '../../context/StoreProvider';
 import userAuthAction from '../../actions/userAuthAction';
 import localstorageConstants from '../../constants/localstorageConstants';
-import userAuthUtils from "../../utls/userAuthUtils";
+import userAuthUtils from "../../utils/userAuthUtils";
 
 export const useCustomBottomInset = () => {
   const insets = useSafeAreaInsets();
@@ -54,10 +54,14 @@ const LoginView = () => {
     setPassword(password);
   };
 
-  const conextionLogin = async (response) => {
-    const rawValue = JSON.stringify(response);
+  const conextionLogin = async (response, password) => {
+    const rawValue = JSON.stringify({
+      username: response.celphone,
+      password: password,
+    });
+    //console.log(rawValue, "guarda en sesion");
     await SecureStore.setItemAsync(localstorageConstants.AUTH, rawValue).then(() => {
-      console.log("finish con then");
+      //console.log("finish con login");
       navigation.navigate(SceneName.Home);
     });
   }
@@ -84,9 +88,10 @@ const LoginView = () => {
       password: password,
     };
     try {
+      //console.log(request)
       userAuthAction.get(request, dispatch, (response) => {
         if (response.id) {
-          conextionLogin(response);
+          conextionLogin(response, request.password);
         }
       },
       (error) => {
@@ -112,9 +117,14 @@ const LoginView = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const auxSession = await userAuthUtils.getConexionSession();
-      if (auxSession)
-        navigation.navigate(SceneName.Home);
+      const auxSession = await userAuthUtils.getLoginStoge();
+      if (auxSession) {
+        userAuthAction.get(auxSession, dispatch, (response) => {
+          if (response.id) {
+            conextionLogin(response);
+          }
+        });
+      }
     }
     fetchData();
   },[]);

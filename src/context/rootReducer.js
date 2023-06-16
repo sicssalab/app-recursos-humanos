@@ -14,7 +14,7 @@ import magicTownProfileList from "./magicTownProfileListReducer";
 import mallsStates from "./mallsStatesReducer";
 import mallProfileList from "./mallProfileListReducer";
 import trainingList from "./trainingListReducer";
-
+import messagesPost from "./messagesPostReducer";
 const rootReducer = combineReducers({
     userAuth,
     audioStreaming,
@@ -30,7 +30,8 @@ const rootReducer = combineReducers({
     entertainmentProfileList,
     experienceProfileList,
     magicTownProfileList,
-    trainingList
+    trainingList,
+    messagesPost
 })
 
 export default rootReducer;
