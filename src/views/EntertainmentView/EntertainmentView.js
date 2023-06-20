@@ -8,6 +8,7 @@ import storiesAction from "../../actions/storiesAction";
 import { typeMockConstants } from "../../constants/typeMockConstants";
 import entertainmentsAction from "../../actions/entertainmentsAction";
 import GlobalPostCMS from "../../components/posts/GlobalPostCMS";
+import InputSearch from "../../components/form/InputSearch/InputSearch";
 
 const EntertainmentView = () => {
   const navigation = useNavigation();
@@ -44,6 +45,7 @@ const EntertainmentView = () => {
       ListHeaderComponent={
         <>
           {stories.complete && <SlideStories />}
+          <InputSearch />
         </>
       }
       //stickyHeaderIndices={[0,1,2]} //TODO grega como sticky el header y los indices de componentes que sigan

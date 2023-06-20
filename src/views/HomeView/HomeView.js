@@ -91,7 +91,7 @@ const HomeView = () => {
                 ) : (
                   <ExperienceIcon fill={color} width="30" height="30"/>
                 )}
-                <Text style={{...styles.textMenu, color: focused ? "gold" : "white"}}>Descuentos</Text>
+                <Text style={{...styles.textMenu, color: focused ? "gold" : "white"}}>Beneficios</Text>
               </View>
           }}
           component={RenderExperience}
@@ -106,7 +106,7 @@ const HomeView = () => {
                 ) : (
                   <MagicTownsIcon fill={color} width="30" height="30"/>
                 )}
-                <Text style={{...styles.textMenu, color: focused ? "gold" : "white"}}>Premium</Text>
+                <Text style={{...styles.textMenu, color: focused ? "gold" : "white"}}>Comunicados</Text>
               </View>
           }}
           component={RenderMagicTowns}
