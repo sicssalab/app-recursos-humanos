@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { FlatList, SectionList, View } from "react-native";
+import { FlatList, SectionList, View,Text, RefreshControl } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { SafeComponent } from "../../components";
 import Divider from "../../components/Divider";
@@ -10,25 +10,26 @@ import StateDropdown from "../AvenuesView/components/StateDropdown";
 import { Container, OptionsContainer } from "../AvenuesView/styles";
 import { Header } from "./components/Header";
 import { useDispatch, useGlobalState } from "../../context/StoreProvider";
-import mallsStatesAction from "../../actions/mallsStatesAction";
 import { typeMockConstants } from "../../constants/typeMockConstants";
 import NoFoundResult from "../../components/ui/NoFoundResult/NoFoundResult";
+import ItemContact from "../../components/contact/ItemContact/ItemContact";
+import contactListAction from "../../actions/contactListAction";
 
 function Component() {
   const navigation = useNavigation();
   const [filteredPosts, setFilteredPosts] = useState([]);
-  const { mallsStates } = useGlobalState();
+  const { contactList } = useGlobalState();
   const [valueSearch, setValueSearch] = useState("");
   const dispatch = useDispatch();
-  const [states, setStates] = useState([]);
   const [visibles, setvisible] = useState([]);
+  const [refreshing, setRefreshing] = React.useState(false);
   useEffect(() => {
-    mallsStatesAction.get({}, dispatch);
+    contactListAction.get({}, dispatch);
   }, []);
 
   useEffect(() => {
-    if (mallsStates.complete) setFilteredPosts(mallsStates.data);
-  }, [mallsStates]);
+    if (contactList.complete) setFilteredPosts(contactList.data);
+  }, [contactList]);
 
   const removeAccents = (str) => {
     return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
@@ -36,13 +37,12 @@ function Component() {
   const onChangeInput = (e) => {
     //TODO de la busqueda filtrar los que son con el nombre
     setValueSearch(e);
-    if (e == "") setFilteredPosts(mallsStates.data);
+    if (e == "") setFilteredPosts(contactList.data);
     else
       setFilteredPosts(
-        mallsStates.data.filter(
+        contactList.data.filter(
           (servicio) =>
-            //removeAccents(servicio.name.toUpperCase()) >= removeAccents(e.toUpperCase())
-            removeAccents(servicio.name.toLowerCase()).indexOf(
+            removeAccents(servicio.attributes?.name.toLowerCase()).indexOf(
               removeAccents(e.toLowerCase())
             ) >= 0
         )
@@ -67,11 +67,21 @@ function Component() {
       })
     );
   });
+
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    contactListAction.get({}, dispatch, (response) => {
+      setRefreshing(false);
+      console.log("refesh items")
+    });
+  }, []);
+
   return (
-    <SafeComponent request={mallsStates}>
+    <SafeComponent request={contactList}>
       <Container>
         <FlatList
           keyExtractor={(item) => item.id}
+          refreshControl={<RefreshControl colors="#ff4500" refreshing={refreshing} onRefresh={onRefresh} />}
           ListHeaderComponent={
             <>
               <Header />
@@ -87,15 +97,11 @@ function Component() {
           }
           data={filteredPosts}
           renderItem={({ item, index }) => {
-            const isVisible = visibles.findIndex((i) => i.index == index);
-            //isVisible >= 0 && console.log(isVisible, item.name);
+            // const isVisible = visibles.findIndex((i) => i.index == index);
+            // //isVisible >= 0 && console.log(isVisible, item.name);
 
             return (
-              <GlobalPost
-                isVisible={isVisible >= 0 ? true : false}
-                item={item}
-                onNavigateClick={() => onNavigateClick(item)}
-              />
+              <ItemContact item={item} />
             );
           }}
           onViewableItemsChanged={onViewableItemsChanged.current}

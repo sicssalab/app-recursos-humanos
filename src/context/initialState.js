@@ -100,4 +100,10 @@ export default {
         complete: false,
         error: false
     },
+    contactList: {
+        data: [],
+        loading: false, //fetching
+        complete: false,
+        error: false
+    },
 }

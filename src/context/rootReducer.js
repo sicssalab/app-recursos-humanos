@@ -15,9 +15,12 @@ import mallsStates from "./mallsStatesReducer";
 import mallProfileList from "./mallProfileListReducer";
 import trainingList from "./trainingListReducer";
 import messagesPost from "./messagesPostReducer";
+import contactList from "./contactListReducer";
+
 const rootReducer = combineReducers({
     userAuth,
     audioStreaming,
+    contactList,
     stories,
     entertainments,
     experiences,

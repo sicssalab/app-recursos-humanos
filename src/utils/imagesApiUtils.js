@@ -1,4 +1,6 @@
 
+import imagenPlaceholder from "../assets/images/placeholder.png";
+
 const getAvatar = (avatar) => {
     let setUrlImage = null;
     if (avatar?.data && avatar?.data.id > 0) {
@@ -15,7 +17,8 @@ const getAvatar = (avatar) => {
 }
 
 const imagesApiUtils = {
-    getAvatar
+    getAvatar,
+    imagenPlaceholder
 }
 
 export default imagesApiUtils;
