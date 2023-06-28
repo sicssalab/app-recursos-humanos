@@ -9,11 +9,12 @@ export default {
 
         playMusic: false,
         playMusicAux: false, //TODO al darle click con video paso el play para cuando detenga el video y siga reproduciendo despues
-
-
     },
     userAuth: {
         isPremium: false,
+        loading: false, //fetching
+        complete: false,
+        error: false
     },
     stories: {
         data: [],
@@ -88,6 +89,18 @@ export default {
         error: false
     },
     trainingList: {
+        data: [],
+        loading: false, //fetching
+        complete: false,
+        error: false
+    },
+    messagesPost: {
+        data: [],
+        loading: false, //fetching
+        complete: false,
+        error: false
+    },
+    contactList: {
         data: [],
         loading: false, //fetching
         complete: false,

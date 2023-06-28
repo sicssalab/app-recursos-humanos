@@ -14,10 +14,13 @@ import magicTownProfileList from "./magicTownProfileListReducer";
 import mallsStates from "./mallsStatesReducer";
 import mallProfileList from "./mallProfileListReducer";
 import trainingList from "./trainingListReducer";
+import messagesPost from "./messagesPostReducer";
+import contactList from "./contactListReducer";
 
 const rootReducer = combineReducers({
     userAuth,
     audioStreaming,
+    contactList,
     stories,
     entertainments,
     experiences,
@@ -30,7 +33,8 @@ const rootReducer = combineReducers({
     entertainmentProfileList,
     experienceProfileList,
     magicTownProfileList,
-    trainingList
+    trainingList,
+    messagesPost
 })
 
 export default rootReducer;
