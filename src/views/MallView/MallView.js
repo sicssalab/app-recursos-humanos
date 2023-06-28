@@ -18,6 +18,7 @@ import contactListAction from "../../actions/contactListAction";
 function Component() {
   const navigation = useNavigation();
   const [filteredPosts, setFilteredPosts] = useState([]);
+  const [showModalComment, setShowModalComment] = useState(false);
   const { contactList } = useGlobalState();
   const [valueSearch, setValueSearch] = useState("");
   const dispatch = useDispatch();
@@ -75,6 +76,13 @@ function Component() {
       console.log("refesh items")
     });
   }, []);
+  const onShowComments = () => {
+    setShowModalComment(!showModalComment);
+  };
+
+  const onPressItemContact = () => {
+    onShowComments();
+  }
 
   return (
     <SafeComponent request={contactList}>
@@ -101,7 +109,7 @@ function Component() {
             // //isVisible >= 0 && console.log(isVisible, item.name);
 
             return (
-              <ItemContact item={item} />
+              <ItemContact item={item} onPress={onPressItemContact} />
             );
           }}
           onViewableItemsChanged={onViewableItemsChanged.current}

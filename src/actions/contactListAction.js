@@ -21,7 +21,7 @@ const error = (contactList = {}) => {
 const inGetPage = async (request, dispatch, onSuccess, onError) => {
   try {
     //TODO el profile no lo usa en este caso &populate[urban][populate][1]=profileCover
-    await fetch(`${settings.domainApi}/api/site-users?populate[avatar][populate]=*&populate[department_user]=*&fields[0]=name&fields[1]=lastname`)
+    await fetch(`${settings.domainApi}/api/site-users?populate[avatar][populate]=*&populate[department_user]=*&populate[workstation_user]=*&fields[0]=name&fields[1]=lastname`)
       .then((res) => res.json())
       .then((response) => {
         //dispatch(getDispatch(response));

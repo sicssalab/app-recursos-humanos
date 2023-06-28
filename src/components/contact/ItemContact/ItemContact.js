@@ -7,22 +7,22 @@ import { useEffect } from "react";
 const ItemContact = (props) => {
     const { item } = props;
     const [urlImage, setUrlImage] = useState("");
-    const onNavigateClick = () => {
-        // const { onNavigateClick } = props;
-        // onNavigateClick && onNavigateClick();
+    const onPress = () => {
+        const { onPress } = props;
+        onPress && onPress();
     };
 
     useEffect(() => {
         try {
-          setUrlImage(imagesApiUtils.getAvatar(item.attributes.avatar));
+            setUrlImage(imagesApiUtils.getAvatar(item.attributes.avatar));
         }
         catch (_) {
-          setUrlImage("")
+            setUrlImage("")
         }
-      }, [item])
+    }, [item])
 
     return (
-        <TouchableOpacity onPress={onNavigateClick} style={styles.header}>
+        <TouchableOpacity onPress={onPress} style={styles.header}>
             <Image
                 source={urlImage
                     ? { uri: urlImage }
@@ -32,7 +32,7 @@ const ItemContact = (props) => {
                 <Text style={styles.name}>{`${item?.attributes?.name?.split(" ")[0]} ${item?.attributes?.lastname && item?.attributes?.lastname?.split(" ")[0]}`}</Text>
                 {item.attributes?.department_user && (
                     <Text style={styles.time}>
-                        {item.attributes?.department_user?.data.attributes.name} - Puerto X
+                        {item.attributes?.department_user?.data.attributes.name} - {item.attributes?.workstation_user?.data.attributes.name}
                     </Text>
                 )}
             </View>
