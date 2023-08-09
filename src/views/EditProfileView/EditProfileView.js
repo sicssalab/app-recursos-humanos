@@ -4,10 +4,12 @@ import {
   Platform,
   Image,
   View,
+  Text,
   Button,
   StyleSheet,
   TouchableOpacity,
 } from 'react-native';
+import * as SecureStore from "expo-secure-store";
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { ThemeContext } from 'styled-components/native';
 import { Ionicons } from '@expo/vector-icons';
@@ -67,6 +69,11 @@ const EditProfileView = ({ route }) => {
     if (!result.canceled) setImage(result.assets[0].uri);
   };
 
+  const handleLogout = async () => {
+    await SecureStore.deleteItemAsync(localstorageConstants.AUTH);
+    navigation.navigate(SceneName.Authentication);
+  }
+
   return (
     <>
       <StatusBar style={themeContext.dark ? 'light' : 'dark'} />
@@ -121,6 +128,11 @@ const EditProfileView = ({ route }) => {
             onChange={setGender}
           />
         </Container>
+        <TouchableOpacity style={{alignContent: "center", alignItems: "center", borderRadius: 20}} onPress={handleLogout}>
+          <Text style={{color: "black", textAlign: "center", backgroundColor: "#b6a885", padding: 10, marginBottom: 20, width: "80%", borderRadius: 40}}>
+            Logout
+          </Text>
+        </TouchableOpacity>
         <ContinueButton
           disabled={continueButtonDisabled}
           onPress={() =>

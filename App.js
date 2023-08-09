@@ -4,7 +4,7 @@ import { StyleSheet, Text, View, useColorScheme } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { ThemeProvider } from "styled-components/native";
-import { Font, DefaultTheme, DarkTheme } from "./src/theme";
+import { Font, DarkTheme } from "./src/theme";
 import { NavigationContainer } from "@react-navigation/native";
 import RouteApp from "./src/RouteApp";
 import { useFonts } from "expo-font";
@@ -15,7 +15,6 @@ SplashScreen.preventAutoHideAsync();
 
 export default function App() {
   const [theme, setTheme] = useState(DarkTheme);
-  const colorScheme = useColorScheme();
 
   const [fontsLoaded] = useFonts({
     [Font.GilroyBold]: require("./src/assets/fonts/Gilroy-Bold.ttf"),
@@ -25,13 +24,6 @@ export default function App() {
     [Font.GilroyRegular]: require("./src/assets/fonts/Gilroy-Regular.ttf"),
     [Font.GilroySemiBold]: require("./src/assets/fonts/Gilroy-SemiBold.ttf"),
   });
-  // const theme = useMemo(() => {
-  //   if (!colorScheme) return DefaultTheme;
-  //   return colorScheme === 'dark' ? DarkTheme : DarkTheme;
-  // }, [colorScheme]);
-  // useEffect(() => {
-  //   setTheme(DarkTheme);
-  // }, [colorScheme]);
 
   const onLayoutRootView = useCallback(async () => {
     if (fontsLoaded) {
@@ -47,12 +39,12 @@ export default function App() {
     <StoreProvider>
       <SafeAreaProvider>
         <ThemeProvider theme={theme}>
-          <View style={{flex: 1}} onLayout={onLayoutRootView}>
-            <StatusBar style="light" />
-            <NavigationContainer theme={theme}>
-              <RouteApp />
-            </NavigationContainer>
-          </View>
+            <View style={{flex: 1}} onLayout={onLayoutRootView}>
+              <StatusBar style="light" />
+              <NavigationContainer theme={theme}>
+                <RouteApp />
+              </NavigationContainer>
+            </View>
         </ThemeProvider>
       </SafeAreaProvider>
     </StoreProvider>

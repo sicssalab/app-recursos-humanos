@@ -1,6 +1,7 @@
 const settings = {
     domain: "https://www.sicssalab.net/contenido-rh/json/",
-    domainApi: "http://192.168.1.87:1337",
+    //domainApi: "http://192.168.1.87:1337",
+    domainApi: "https://cms-rh.sicssa-lab.com",
     api: {
         stories: "entretenimiento/mocksStory.json",
         entertainments: "1-entretenimiento/mockEntretenimiento.json?v=2",

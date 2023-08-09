@@ -37,7 +37,7 @@ const premium = async (dispatch) => {
 const get = async (request, dispatch, onSuccess, onError) => {
     dispatch(loading());
     try {
-        await fetch(`${settings.domainApi}/api/site-users?populate=*&filters[celphone][$eq]=${request.username}&filters[password_view][$eq]=${request.password}`, {
+        await fetch(`${settings.domainApi}/api/site-users?populate=*&filters[celphone]=${request.username}&filters[password_view]=${request.password}`, {
             method: 'GET',
             headers: { 'Content-Type': 'application/json' },
         })

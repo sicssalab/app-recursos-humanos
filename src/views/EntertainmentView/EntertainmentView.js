@@ -1,4 +1,4 @@
-import { View, Text, FlatList } from "react-native";
+import { View, Text, FlatList, RefreshControl } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import SlideStories from "./components/SlideStories/SlideStories";
 import SceneName from "../../constants/SceneName";
@@ -13,6 +13,7 @@ import NoFoundResult from "../../components/ui/NoFoundResult/NoFoundResult";
 import stringUtils from "../../utils/stringUtils";
 const EntertainmentView = () => {
   const navigation = useNavigation();
+  const [refreshing, setRefreshing] = React.useState(false);
   const { stories, entertainments } = useGlobalState();
   const [visibles, setvisible] = useState([]);
   const [itemsFilters, setItemsFilters] = useState([])
@@ -40,7 +41,13 @@ const EntertainmentView = () => {
     storiesAction.get({}, dispatch);
     entertainmentsAction.getPageInitial({}, dispatch, () => { }, () => { });
   }, []);
-
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    entertainmentsAction.getPageInitial({}, dispatch, () => {
+      setRefreshing(false);
+      console.log("refesh items")
+    });
+  }, []);
   const onSubmitInputSearch = (response) => {
     setSearchValue(response);
     //TODO filtrar los items por el nombre o no se que
@@ -67,6 +74,9 @@ const EntertainmentView = () => {
         </>
       }
       //stickyHeaderIndices={[0,1,2]} //TODO grega como sticky el header y los indices de componentes que sigan
+      refreshControl={
+        <RefreshControl colors="#ff4500" tintColor="#ff4500" refreshing={refreshing} onRefresh={onRefresh} />
+      }
       data={entertainments.complete ?
         searchValue != "" ? itemsFilters : entertainments.data
         : []}
@@ -83,6 +93,7 @@ const EntertainmentView = () => {
           />
         );
       }}
+      contentContainerStyle={{backgroundColor: "pink"}}
       onViewableItemsChanged={onViewableItemsChanged.current}
       ListFooterComponent={
         <>
